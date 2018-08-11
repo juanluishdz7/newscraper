@@ -79,7 +79,7 @@ app.post("/articles/:id", function(req, res) {
 
 });
 
-app.delete("/articles/:id", function(req, res) {
+app.delete("/articles/", function(req, res) {
   db.note.delete(req.body)
     .then(function(dbnote) {
       return db.article.findOneAndRemove({ _id: req.params.id}, { note: dbnote._id}, { new: true});

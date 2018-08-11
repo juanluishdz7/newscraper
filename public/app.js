@@ -27,7 +27,7 @@ $(document).on("click", "p", function () {
       // A button to submit a new note, with the id of the article saved to it
       $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
       //delete note btn
-      $("#notes").append("<button data-id='" + data._id + "' id='deletenote'>Delete Note</button>");
+      $("#notes").append("<button data-id='" + data.note + "' id='deletenote'>Delete Note</button>");
 
 
       // If there's a note in the article
@@ -69,13 +69,22 @@ $(document).on("click", "#savenote", function () {
   $("#titleinput").val("");
   $("#bodyinput").val("");
 
-  $("#deletenote").on("click", function() {
+  $(document).on("click", "#deletenote", function() {
     var thisId = $(this).attr("data-id");
     $.ajax({
         method: "DELETE",
         url: "/articles/" + thisId,
-    }).done(function(data) {
-        console.log(data)
+        data: {
+          title: $("#titleinput").val(""),
+          body: $("#bodyinput").val("")
+        }
+
+    })
+     .then(function (data) {
+      // Log the response
+      console.log(data);
+      // Empty the notes section
+      $("#notes").empty();
     });
   });
 });
